@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import css from './contact-list.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFilter } from 'redux/actions';
-import { deleteContact, getContacts } from 'redux/initialState';
+import { selectContacts } from 'redux/selectors';
+import { fetchContacts, deleteContact } from 'services/contactsApi';
 
 function ContactList() {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const filtered = useSelector(getFilter);
 
   const normalizedFilter = filtered.toLowerCase();
   const filteredContacts = contacts.filter(({ name }) =>
     name.toLowerCase().includes(normalizedFilter)
   );
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
   return (
     <ul className={css.contactList}>
       {filteredContacts.map(({ id, name, number }) => (

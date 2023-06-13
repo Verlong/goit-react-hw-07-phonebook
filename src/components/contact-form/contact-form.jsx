@@ -1,18 +1,18 @@
 import React from 'react';
+import Notiflix from 'notiflix';
 import css from './contact-form.module.css';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
-import { addContact } from 'redux/initialState';
-import { getContacts } from 'redux/initialState';
-import Notiflix from 'notiflix';
+import { addContact } from 'services/contactsApi';
+import { selectContacts } from 'redux/selectors';
 
 const ContactForm = () => {
   const [contactName, setContactName] = useState('');
   const [number, setNumber] = useState('');
 
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
 
   const handleSubmit = event => {
     event.preventDefault();
