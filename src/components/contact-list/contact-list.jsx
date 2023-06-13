@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import css from './contact-list.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilter } from 'redux/actions';
-import { selectContacts } from 'redux/selectors';
+
+import { selectContacts, selectStatusFilter } from 'redux/selectors';
 import { fetchContacts, deleteContact } from 'services/contactsApi';
 
 function ContactList() {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
-  const filtered = useSelector(getFilter);
+  const filtered = useSelector(selectStatusFilter);
 
   const normalizedFilter = filtered.toLowerCase();
   const filteredContacts = contacts.filter(({ name }) =>
@@ -19,6 +19,7 @@ function ContactList() {
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
+
   return (
     <ul className={css.contactList}>
       {filteredContacts.map(({ id, name, number }) => (
