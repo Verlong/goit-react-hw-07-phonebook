@@ -17,6 +17,11 @@ const ContactForm = () => {
   const handleSubmit = event => {
     event.preventDefault();
 
+    if (contacts.some(({ name }) => name === contactName)) {
+      Notiflix.Notify.failure(`${contactName} is already in your contacts`);
+      return;
+    }
+
     if (contacts.some(contact => contact.number === number)) {
       Notiflix.Notify.failure(
         `This number - ${number} is already in your contacts`
